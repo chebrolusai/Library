@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Librarian Time Sheet</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            overflow-x: hidden;
+        }
+        .form-group input:focus {
+            border-color: #dc3545;
+            box-shadow: 0 0 0 0.2rem rgba(225,83,97,.5);
+        }
+        .custom-label {
+            font-size: 1.3rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-danger text-white rounded">
+        <div class="row justify-content-center">
+            <h2 class="m-3">
+            NU Library
+            </h2>
+        </div>
+    </div>
+    <div class="container mt-5">
+        <h1 class="text-center mb-5">Librarian Time Sheet</h1>
+        <h3 class="mb-5 font-weight-normal">Week Starting: <span class="font-weight-light" id="weekStart"></span></h3>
+        <form id="timeSheetForm">
+            <!-- Monday -->
+            <div class="form-group">
+                <label class="custom-label" for="mondayHours">Monday</label>
+                <input type="number" class="form-control" id="mondayHours" placeholder="Enter hours worked">
+            </div>
+
+            <!-- Tuesday -->
+            <div class="form-group">
+                <label class="custom-label" for="tuesdayHours">Tuesday</label>
+                <input type="number" class="form-control" id="tuesdayHours" placeholder="Enter hours worked">
+            </div>
+
+            <!-- Wednesday -->
+            <div class="form-group">
+                <label class="custom-label" for="wednesdayHours">Wednesday</label>
+                <input type="number" class="form-control" id="wednesdayHours" placeholder="Enter hours worked">
+            </div>
+
+            <!-- Thursday -->
+            <div class="form-group">
+                <label class="custom-label" for="thursdayHours">Thursday</label>
+                <input type="number" class="form-control" id="thursdayHours" placeholder="Enter hours worked">
+            </div>
+
+            <!-- Friday -->
+            <div class="form-group">
+                <label class="custom-label" for="fridayHours">Friday</label>
+                <input type="number" class="form-control" id="fridayHours" placeholder="Enter hours worked">
+            </div>
+
+            <div class="d-flex justify-content-center mt-5 mb-5">
+                <button type="submit" class="mb-5 btn btn-danger btn-lg">Submit</button>
+
+            </div>
+        </form>
+    </div>
+    <div class="bg-danger text-white rounded" style="margin-top: 50px;">
+        <div class="row justify-content-center">
+            <a class="text-white text-decoration-none m-3" th:href="@{/}">Home</a>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+
+<script>
+    function getMonday(d) {
+        d = new Date(d);
+        var day = d.getDay(),
+            diff = d.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is Sunday
+        return new Date(d.setDate(diff));
+    }
+
+    function formatDate(date) {
+        return date.toISOString().substring(0, 10); // format as yyyy-mm-dd
+    }
+
+    window.onload = function () {
+        var monday = getMonday(new Date());
+        document.getElementById("weekStart").innerText = formatDate(monday);
+    };
+
+    document.getElementById('timeSheetForm').onsubmit = function (e) {
+        e.preventDefault();
+
+        // Calculate total hours
+        let totalHours = 0;
+        totalHours += Number(document.getElementById('mondayHours').value);
+        totalHours += Number(document.getElementById('tuesdayHours').value);
+        totalHours += Number(document.getElementById('wednesdayHours').value);
+        totalHours += Number(document.getElementById('thursdayHours').value);
+        totalHours += Number(document.getElementById('fridayHours').value);
+        // Add hours from other days similarly
+
+        // Now, send this data to your server
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", "/updateHoursWorked", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function () {
+            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                console.log("Time Updated")
+            }
+        }
+
+        // Include other necessary data, like the username
+        xhr.send("totalHours=" + totalHours);
+    }
+
+</script>
+
+</html>

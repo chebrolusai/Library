@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Librarian Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .search{
+            display: flex;
+            justify-content: space-around;
+        }
+        input:focus{
+            outline: none;
+        }
+        .table-striped {
+            width: 100%;
+            margin-bottom: 1rem;
+            color: #212529;
+        }
+        .table-striped th,
+        .table-striped td {
+            padding: 0.75rem;
+            vertical-align: top;
+            border-top: 1px solid #dee2e6;
+        }
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .card {
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background-color: #f8f9fa;
+            border-radius: 0.25rem;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        }
+        .btn-danger {
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+<div class="bg-danger text-white rounded">
+    <div class="row justify-content-center">
+        <h2 class="m-3">Member Home - Borrow or Return Books</h2>
+    </div>
+</div>
+<div class="container mt-5 text-right">
+    <a th:href="@{/MemberLogout}" class="btn btn-danger">Logout</a>
+</div>
+
+<div class="container">
+    <!-- Alert Message -->
+    <div th:if="${message}" class="alert alert-success">
+        <span th:text="${message}"></span>
+    </div>
+
+    <!-- Search Books Section -->
+    <div class="card">
+        <div class="search">
+            <h2>Search Books</h2>
+            <form th:action="@{/member/searchBooks}" method="get">
+                <input type="text" id="bookSearch" name="keyword" />
+                <button type="submit" class="btn btn-danger">Search</button>
+            </form>
+        </div>
+    </div>
+    <div class="card">
+        <h2>Books in Library</h2>
+        <table class="table-striped">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Genre</th>
+                <th>Language</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="book : ${books}">
+                <td th:text="${book.bookId}"></td>
+                <td th:text="${book.title}"></td>
+                <td th:text="${book.author}"></td>
+                <td th:text="${book.genre}"></td>
+                <td th:text="${book.language}"></td>
+                <td>
+                    <form th:action="@{/borrowBook}" method="post">
+                        <input type="hidden" name="bookId" th:value="${book.bookId}" />
+                        <select name="librarianId" class="form-control">
+                            <option th:each="librarian : ${librarians}"
+                                    th:value="${librarian.id}"
+                                    th:text="${librarian.firstName} + ' ' + ${librarian.lastName}">
+                            </option>
+                        </select>
+                        <button type="submit" class="btn btn-primary">Borrow</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+            <!-- Table Content for Books in Library -->
+        </table>
+    </div>
+
+    <!-- Books Borrowed Section -->
+    <div class="card">
+        <div class="search">
+            <h2>Search Books Borrowed</h2>
+            <form th:action="@{/member/searchBooksBorrowed}" method="get">
+                <input type="text" id="booksBorrowedSearch" name="keyword" />
+                <button type="submit" class="btn btn-danger">Search</button>
+
+            </form>
+        </div>
+    </div>
+    <div class="card">
+        <h2>Books Borrowed</h2>
+        <table class="table-striped">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Genre</th>
+                <th>Language</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="book : ${borrowedBooks}">
+                <td th:text="${book.bookId}"></td>
+                <td th:text="${book.title}"></td>
+                <td th:text="${book.author}"></td>
+                <td th:text="${book.genre}"></td>
+                <td th:text="${book.language}"></td>
+                <td>
+                    <form action="/returnBook" method="post"> 
+                        <input type="hidden" name="bookId" th:value="${book.bookId}"/> 
+                        <input type="submit" value="Return"/>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+
+            <!-- Table Content for Books Borrowed -->
+        </table>
+    </div>
+
+    <!-- Borrow Requests Section -->
+
+
+    <!-- Private Rooms Section -->
+    <div>
+    <div class="card">
+        <h2>Private Rooms Available</h2>
+        <table class="table-striped">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Number</th>
+                <th>From</th>
+                <th>To</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="privateroom : ${availableRooms}">
+                <td th:text="${privateroom.roomId}"></td>
+                <td th:text="${privateroom.roomNumber}"></td>
+                <form th:action="@{/requestPrivateRoom}" method="post">
+
+                    <input type="hidden" name="roomId" th:value="${privateroom.roomId}" />
+
+                    <td>
+                        <input type="datetime-local" name="fromDateTime" />
+                    </td>
+
+                    <td>
+                        <input type="datetime-local" name="toDateTime" />
+                    </td>
+
+                    <td>
+                        <button type="submit" class="btn btn-primary">Request</button>
+                    </td>
+                </form>
+            </tr>
+            </tbody>
+        </table>
+
+        <h2>Current Rooms</h2>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Number</th>
+                <th>From</th>
+                <th>To</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="room : ${rooms}">
+                <td th:text="${room.roomId}"></td>
+                <td th:text="${room.roomNumber}"></td>
+                <td th:text="${room.fromDateTime}"></td>
+                <td th:text="${room.toDateTime}"></td>
+                <form th:action="@{/checkoutPrivateRoom}" method="post">
+                    <input type="hidden" name="roomId" th:value="${room.roomId}" />
+                    <td>
+                        <button type="submit" class="btn btn-primary">Check out</button>
+                    </td>
+                </form>
+                
+            </tr>
+            </tbody>
+        </table>
+
+        <!-- Table Content for Private Rooms Available -->
+        </table>
+    </div>
+    </div>
+    <!-- Similar structure for other sections like Books in Library, Books Borrowed, etc. -->
+
+    <div class="bg-danger text-white rounded" style="margin-top: 50px;">
+        <div class="row justify-content-center">
+            <a class="text-white text-decoration-none m-3" th:href="@{/}">Home</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

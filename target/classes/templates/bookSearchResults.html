@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css">
+	<style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+        .header {
+            background-color: #dc3545;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        .container {
+            margin-top: 20px;
+        }
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f7f7f7;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .error-message {
+            color: red;
+            margin: 15px 0;
+        }
+    </style>
+	<title>Book Search Results</title>
+</head>
+<body>
+<div class="header">
+	<h2>NU Library</h2>
+</div>
+<div class="container">
+	<div class="card px-5 pt-4 pb-5">
+		<h2>Book Search Results</h2>
+		<div class="error-message" th:if="${errorMessage}" th:text="${errorMessage}"></div>
+		<table class="table-striped" th:if="${not #lists.isEmpty(books)}">
+			<thead>
+			<tr>
+				<th>ID</th>
+				<th>Title</th>
+				<th>Author</th>
+				<th>Genre</th>
+				<th>Language</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr th:each="book : ${books}">
+				<td th:text="${book.bookId}"></td>
+				<td th:text="${book.title}"></td>
+				<td th:text="${book.author}"></td>
+				<td th:text="${book.genre}"></td>
+				<td th:text="${book.language}"></td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+
+</div>
+<div class="bg-danger text-white rounded" style="margin-top: 50px;">
+    <div class="row justify-content-center">
+        <a class="text-white text-decoration-none m-3" th:href="@{/}">Home</a>
+    </div>
+</div>
+
+</body>
+</html>

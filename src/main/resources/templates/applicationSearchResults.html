@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css">
+	<title>Application Search Results</title>
+</head>
+
+<body>
+	<div class="bg-danger text-white rounded">
+		<div class="row justify-content-center">
+				<h2 class="m-3">
+				NU Library
+				</h2>
+		</div>
+	</div>
+	<div class="container" style="margin-top: 50px;">
+		<div class="card px-5 pt-4 pb-5">
+			<h2>Application Search Results</h2>
+
+			<div th:if="${errorMessage}" th:text="${errorMessage}"></div>
+
+			<table class="table-striped" th:if="${not #lists.isEmpty(applications)}">
+				<!-- ... (table structure for applications) -->
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Name</th>
+						<th>Reason</th>
+						<th>Experience</th>
+						<!-- Add more columns as needed -->
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="application : ${applications}">
+						<td th:text="${application.id}"></td>
+						<td th:text="${application.firstName + ' ' + application.lastName}"></td>
+						<td th:text="${application.reason}"></td>
+						<td th:text="${application.experience}"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</body>
+<div class="bg-danger text-white rounded" style="margin-top: 50px;">
+	<div class="row justify-content-center">
+		<a class="text-white text-decoration-none m-3" th:href="@{/}">Home</a>
+	</div>
+</div>
+
+</html>

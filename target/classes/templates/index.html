@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>NU Library</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css">
+  <style>
+		body {
+			background: url('bgimage.jpg') no-repeat center center fixed;
+      background-size: cover;
+      width: 100%;
+      height: 100vh;
+      margin: 0;
+      overflow-x: hidden;
+		}
+    img {
+      padding: 10px;
+    }
+	</style>
+</head>
+<body>
+  <div class="bg-danger text-white rounded">
+    <div class="row justify-content-center">
+      <h2 class="m-3">
+        NU Library
+      </h2>
+    </div>
+  </div>
+	<div class="container">
+    <div class="container mt-5">
+      <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div class="col">
+          <div class="card h-100">
+            <img src="admin.png" class="card-img-top" alt="admin-image">
+            <div class="card-body">
+              <h3><a th:href="@{/AdminLogin}" class="btn btn-danger btn-lg btn-block">Login as Admin</a></h3>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card h-100">
+            <img src="member.png" class="card-img-top" alt="member-image">
+            <div class="card-body">
+              <h3><a th:href="@{/MemberLogin}" class="btn btn-danger btn-lg btn-block">Login as Member</a></h3>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card h-100">
+            <img src="librarian.png" class="card-img-top" alt="librarian-image">
+            <div class="card-body">
+              <h3><a th:href="@{/LibrarianLogin}" class="btn btn-danger btn-lg btn-block">Login as Librarian</a></h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>  
+  </div>
+</body>
+</html>

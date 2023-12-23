@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Request Confirmation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            margin-top: 30px;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            outline: none;
+            color: #fff;
+            background-color: #dc3545; /* Bootstrap 'danger' color */
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 9px #999;
+        }
+        .button:hover {
+            background-color: #c82333; /* Darker shade for hover */
+        }
+        .button:active {
+            background-color: #c82333;
+            box-shadow: 0 5px #666;
+            transform: translateY(4px);
+        }
+        h2 {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+<h2>Request Sent to Librarian!</h2>
+
+<div class="container">
+    <a class="button" th:href="@{/MemberLogin}">Go Back</a>
+</div>
+
+<div class="container">
+    <a class="button" th:href="@{/}">Home</a>
+</div>
+</body>
+</html>

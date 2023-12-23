@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Member Sign Up</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url('bgimage.jpg') no-repeat center center fixed;
+            background-size: cover;
+            width: 100%;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+<div class="bg-danger text-white rounded">
+    <div class="row justify-content-center">
+        <h2 class="m-3">
+            NU Library
+        </h2>
+    </div>
+</div>
+<div class="container" style="margin-top: 50px;">
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
+            <h3 class="text-center mt-4">Member Sign Up</h3>
+            <hr/>
+            <div class="card-body">
+                <form th:action="@{/MemberSignUp}" method="POST">
+                    <!-- Success Message -->
+                    <div th:if="${message}" class="alert alert-success">
+                        <span th:text="${message}"></span>
+                    </div>
+
+                    <!-- Form Fields -->
+                    <div class="form-group">
+                        <label>First Name: </label>
+                        <input type="text" name="firstName" class="form-control" placeholder="First Name" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Last Name: </label>
+                        <input type="text" name="lastName" class="form-control" placeholder="Last Name" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Username: </label>
+                        <input type="text" name="username" class="form-control" placeholder="Username" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Password: </label>
+                        <input type="password" name="password" class="form-control" placeholder="Password" required />
+                    </div>
+                    <div class="form-group text-center">
+                        <button type="submit" class="btn btn-danger btn-lg">Sign Up</button>
+                    </div>
+                </form>
+                <div class="text-center">
+                    <a th:href="@{/MemberLogin}" class="mb-3 text-danger"> Already a member? Login..! </a> <br/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="bg-danger text-white rounded" style="margin-top: 50px;">
+    <div class="row justify-content-center">
+        <a class="text-white text-decoration-none m-3" th:href="@{/}">Home</a>
+    </div>
+</div>
+</body>
+</html>

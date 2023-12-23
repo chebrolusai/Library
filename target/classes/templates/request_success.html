@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Room Requested</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            width: 80%;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+        h2 {
+            color: #4CAF50;
+            margin-bottom: 15px;
+        }
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #555;
+        }
+        a.button {
+            display: inline-block;
+            margin: 10px 5px;
+            padding: 12px 25px;
+            text-decoration: none;
+            background-color: #dc3545; /* Danger color */
+            color: white;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        a.button:hover {
+            background-color: #c82333; /* Darker shade for hover */
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Room Booked!</h2>
+    <p>Your room reservation has been successfully processed.</p>
+
+    <a class="button" th:href="@{/MemberLogin}">Go Back</a>
+    <a class="button" th:href="@{/}">Home</a>
+</div>
+
+</body>
+</html>

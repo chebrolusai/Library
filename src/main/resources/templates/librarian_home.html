@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Librarian Details</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css">
+    <style>
+        body {
+            overflow-x: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-danger text-white rounded">
+        <div class="row justify-content-center">
+            <h2 class="m-3">
+                NU Library - Librarian Dashboard
+            </h2>
+        </div>
+    </div>
+    <div class="container mt-5 text-right">
+        <a th:href="@{/LibrarianLogout}" class="btn btn-danger">Logout</a>
+    </div>
+    <div class="container" style="margin-top: 50px;">
+
+        <h1 class="text-center mb-5" th:text="'Hello! ' + ${librarian.firstName} + ' ' + ${librarian.lastName}">
+            Librarian Details</h1>
+
+            <h2>Books in Library</h2>
+            <form th:action="@{/AdminLogin/sortbooks}" method="get" id="sortForm">
+                <input type="hidden" id="sortBy" name="sortBy" value="" />
+                <div class="table-responsive">
+                    <table class="table-striped" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>
+                                    ID
+                                    <button type="button" class="btn btn-link btn-sm"
+                                        onclick="sortTable('Id')">Sort</button>
+                                </th>
+                                <th>
+                                    Title
+                                    <button type="button" class="btn btn-link btn-sm"
+                                        onclick="sortTable('Title')">Sort</button>
+                                </th>
+                                <th>
+                                    Author
+                                    <button type="button" class="btn btn-link btn-sm"
+                                        onclick="sortTable('Author')">Sort</button>
+                                </th>
+                                <th>
+                                    Genre
+                                    <button type="button" class="btn btn-link btn-sm"
+                                        onclick="sortTable('Genre')">Sort</button>
+                                </th>
+                                <th>
+                                    Language
+                                    <button type="button" class="btn btn-link btn-sm"
+                                        onclick="sortTable('Language')">Sort</button>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="book : ${books}">
+                                <td th:text="${book.bookId}"></td>
+                                <td th:text="${book.title}"></td>
+                                <td th:text="${book.author}"></td>
+                                <td th:text="${book.genre}"></td>
+                                <td th:text="${book.language}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+
+        <h2 class="mb-3 mt-3">Borrow Requests</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th> Requested By </th>
+                    <!-- Add more headers as per Book attributes -->
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="book : ${borrowRequests}">
+                    <td th:text="${book.bookId}"></td>
+                    <td th:text="${book.title}"></td>
+                    <td th:text="${book.author}"></td>
+                    <td
+                        th:text="${book.borrowedBy != null ? book.borrowedBy.firstName + ' ' + book.borrowedBy.lastName : 'Not Requested'}">
+                    </td>
+                    <td class="d-flex justify-content-center align-items-center flex-column">
+                        <!-- Accept Form -->
+                        <form th:action="@{/acceptBorrowRequest}" method="post">
+                            <input type="hidden" name="bookId" th:value="${book.bookId}" />
+                            <button type="submit" class="btn btn-success mb-3">Accept</button>
+                        </form>
+
+                        <!-- Decline Form -->
+                        <form th:action="@{/declineBorrowRequest}" method="post">
+                            <input type="hidden" name="bookId" th:value="${book.bookId}" />
+                            <button type="submit" class="btn btn-danger">Decline</button>
+                        </form>
+                    </td>
+
+                    <!-- Add more cells as per Book attributes -->
+                </tr>
+            </tbody>
+        </table>
+
+
+
+
+
+    </div>
+    <div class="bg-danger text-white rounded" style="margin-top: 50px;">
+        <div class="row justify-content-center">
+            <a class="text-white text-decoration-none m-3" th:href="@{/}">Home</a>
+        </div>
+        <div class="row justify-content-center">
+            <a class="text-white text-decoration-none m-3" th:href="@{/updateHoursWorked}">Enter Time Sheet</a>
+        </div>
+    </div>
+
+</body>
+
+</html>
